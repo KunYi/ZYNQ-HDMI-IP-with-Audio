@@ -1,6 +1,6 @@
 `timescale 1ns / 1ns
 
-module hdmi 
+module hdmi
 #(
     // Defaults to 640x480 which should be supported by almost if not all HDMI sinks.
     // See README.md or CEA-861-D for enumeration of video id codes.
@@ -74,7 +74,7 @@ module hdmi
     // These outputs go to your HDMI port
     output wire [2:0] tmds,
     output wire tmds_clock,
-    
+
     // All outputs below this line stay inside the FPGA
     // They are used (by you) to pick the color each pixel should have
     // i.e. always_ff @(posedge pixel_clk) rgb <= {8'd0, 8'(cx), 8'(cy)};
@@ -88,7 +88,7 @@ module hdmi
     output logic [BIT_HEIGHT-1:0] frame_height,
     output logic [BIT_WIDTH-1:0] screen_width,
     output logic [BIT_HEIGHT-1:0] screen_height,
-	
+
 	input wire hsync_in,
 	input wire vsync_in,
 	input wire den_in
@@ -211,13 +211,13 @@ always_ff @(posedge clk_pixel)begin
         lock_state <= 1'b0;
 		den_in_r <= 1'b0;
     end else begin
-		
+
 		den_in_r <= den_in;
-		
+
 		if(vsync_in & hsync_in & !lock_state)begin
 			lock_state <= 1'b1;
 		end
-		
+
 		if(!den_in_r & den_in & lock_state)begin
 			lock_state <= 1'b0;
 		end
